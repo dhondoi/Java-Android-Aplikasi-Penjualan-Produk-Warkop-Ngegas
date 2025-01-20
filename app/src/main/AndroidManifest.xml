@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.NonaSeblak"
+        tools:targetApi="31">
+        <activity
+            android:name=".activity.InfoAppActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ReportIncomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.OrderActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.OrderAddActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.OrderDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.OrderPaymentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.OrderProcessActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.TransactionOrderActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.OrderMenuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ProductActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ProductMenuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.CategoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.VariantActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.SplashScreenActivity"
+            android:exported="true"
+            android:theme="@style/Theme.NonaSeblak.FullScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.MainMenuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.MasterDataMenuActivity"
+            android:exported="false" />
+    </application>
+
+</manifest>

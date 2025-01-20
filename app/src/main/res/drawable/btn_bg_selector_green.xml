@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--on pressed-->
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/white" />
+            <corners android:radius="10dp" />
+            <stroke android:width="2dp" android:color="@color/white" />
+        </shape>
+    </item>
+    <!--    for focused button-->
+    <!--    <item android:drawable="@color/black" android:state_focused="true" />-->
+    <!--    for disabled button-->
+    <item android:state_enabled="false">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/black" />
+            <corners android:radius="10dp" />
+            <stroke android:width="2dp" android:color="@color/white" />
+        </shape>
+    </item>
+    <!--    idle-->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/green" />
+            <corners android:radius="10dp" />
+            <stroke android:width="2dp" android:color="@color/white" />
+        </shape>
+    </item>
+</selector>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--on pressed-->
+    <item android:color="@color/green" android:state_pressed="true" />
+    <!--    for focused button-->
+    <!--    <item android:drawable="@color/black" android:state_focused="true" />-->
+    <!--    for disabled button-->
+    <!--    <item android:state_enabled="false" android:drawable="@color/black"/>-->
+    <!--    idle-->
+    <item android:color="@color/white" />
+</selector>

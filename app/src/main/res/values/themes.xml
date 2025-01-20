@@ -1,0 +1,20 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.NonaSeblak" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+<!--        <item name="android:screenOrientation">portrait</item>-->
+    </style>
+
+    <style name="Theme.NonaSeblak" parent="Base.Theme.NonaSeblak" />
+
+    <style name="Theme.NonaSeblak.FullScreen" parent="Base.Theme.NonaSeblak">
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="Theme.NonaSeblak.Dialog" parent="@style/MaterialAlertDialog.Material3">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+</resources>
