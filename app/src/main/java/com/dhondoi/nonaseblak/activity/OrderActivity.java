@@ -1,12 +1,14 @@
 package com.dhondoi.nonaseblak.activity;
 
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -155,10 +157,8 @@ public class OrderActivity extends BaseActivity {
         stringBuilder.append("-----------------------------------------------");
         stringBuilder.append("\n----------WARKOP NGEGAS---------");
         stringBuilder.append("\n-----------------------------------------------");
-        stringBuilder.append("\nNama    : ");
-        stringBuilder.append(customerName);
-        stringBuilder.append("\nTanggal : ");
-        stringBuilder.append(DateUtil.getStringDateNowForPrint());
+        stringBuilder.append("\nNama    : ").append(customerName);
+        stringBuilder.append("\nTanggal : ").append(DateUtil.getStringDateNowForPrint());
         stringBuilder.append("\n-----------------------------------------------");
         for (Order order : orders) {
             stringBuilder.append("\n");
@@ -171,34 +171,37 @@ public class OrderActivity extends BaseActivity {
             if (nameProduct.length() < 9) {
                 stringBuilder.append("\t");
             }
-            stringBuilder.append("\t");
-            stringBuilder.append(order.getQuantity().toString());
-            stringBuilder.append(" ");
-            stringBuilder.append(CurrencyUtil.toCurrency(order.getTotal().intValue()));
+            stringBuilder.append("\t").append(order.getQuantity().toString());
+            stringBuilder.append(" ").append(CurrencyUtil.toCurrency(order.getTotal().intValue()));
         }
         stringBuilder.append("\n-----------------------------------------------");
-        stringBuilder.append("\nTOTAL \t\t: ");
-        stringBuilder.append(CurrencyUtil.toCurrency(totalPriceOrder.intValue()));
+        stringBuilder.append("\nTOTAL \t\t: ").append(CurrencyUtil.toCurrency(totalPriceOrder.intValue()));
         stringBuilder.append("\n-----------------------------------------------");
-        stringBuilder.append("\nCATATAN : ");
-        stringBuilder.append(note.toUpperCase());
+        stringBuilder.append("\nCATATAN : ").append(note.toUpperCase());
         stringBuilder.append("\n-----------------------------------------------");
         stringBuilder.append("\n------------TERIMA KASIH------------");
         stringBuilder.append("\n-----------------------------------------------");
         stringBuilder.append("\nInstagram : warkop_ngegas");
         stringBuilder.append("\nWhatsapp : 0838-6608-3415");
+        stringBuilder.append("\nPassword WiFi : ").append(getPasswordWiFi());
         stringBuilder.append("\n");
         stringBuilder.append("\n");
         stringBuilder.append("\n");
         String message = stringBuilder.toString();
         Bitmap bitMapText = bluetoothHelper.messageToBitmap(message, R.font.arialbd, 30F);
         bluetoothHelper.printImage(bitMapText);
+//        Toast.makeText(this,message,Toast.LENGTH_LONG).show();
 //        boolean isPrinted = bluetoothHelper.printImage(bitMapText);
 //        bluetoothHelper.disconnectPrinter();
 //            if (isPrinted) {
 //                showDialogPrint("Cetak Lagi?", note);
 //            } else {
 //            }
+    }
+
+    private String getPasswordWiFi() {
+        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", MODE_PRIVATE);
+        return sharedPreferences.getString("wifi", "-");
     }
 
     @Override

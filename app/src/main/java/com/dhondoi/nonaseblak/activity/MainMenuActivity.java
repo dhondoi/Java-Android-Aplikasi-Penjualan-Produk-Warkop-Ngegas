@@ -1,12 +1,15 @@
 package com.dhondoi.nonaseblak.activity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -71,15 +74,51 @@ public class MainMenuActivity extends AppCompatActivity {
         List<String> settings = new LinkedList<>();
         settings.add("TEST PRINTER BLUETOOTH");
         settings.add("INFO APLIKASI");
+        settings.add("PASSWORD WIFI");
         settings.add("BATAL");
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, settings);
         DialogUtil.showDialogList(this, "Pilih Pengaturan", adapter, (dialog, which) -> {
-            if (which == 0) {
+            chosenSetting(which);
+        });
+    }
+
+    private void chosenSetting(int which) {
+        switch (which) {
+            case 0:
                 resetPrinter();
-            } else if (which == 1) {
+                break;
+            case 1:
                 startActivity(new Intent(this, InfoAppActivity.class));
+                break;
+            case 2:
+                displayDialogSettingWiFi();
+                break;
+        }
+    }
+
+    private void displayDialogSettingWiFi() {
+        EditText editText = new EditText(this);
+        editText.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
+        editText.setHint("Password WiFi");
+        DialogUtil.showDialog2Button(this, "Masukkan Password WiFi", editText, (dialogInterface, i) -> {
+
+            String name = editText.getText().toString();
+            if (DialogInterface.BUTTON_POSITIVE == i) {
+
+                if (!StringCheckerUtil.isEmpty(name)) {
+                    savePasswordWifi(name);
+                }
+
             }
         });
+    }
+
+    private void savePasswordWifi(String name) {
+        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+        edit.putString("wifi", name);
+        edit.apply();
+        Toast.makeText(this, "Password WiFi Berhasil Diubah.", Toast.LENGTH_SHORT).show();
     }
 
     private void resetPrinter() {
