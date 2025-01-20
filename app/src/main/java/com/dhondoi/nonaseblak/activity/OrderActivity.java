@@ -147,9 +147,7 @@ public class OrderActivity extends BaseActivity {
         List<Order> orders = orderService.getOrders();
         Long totalPriceOrder = getTotalPriceOrder(orders);
 //        new BluetoothHelper(this, this.getApplicationContext()).printOrder(customerName.toUpperCase(), orders, totalPriceOrder, note);
-        if (bluetoothPrinterIsSecure()) {
-            doPrint(customerName.toUpperCase(), orders, totalPriceOrder, note);
-        }
+        doPrint(customerName.toUpperCase(), orders, totalPriceOrder, note);
     }
 
     private void doPrint(String customerName, List<Order> orders, Long totalPriceOrder, String note) {
@@ -194,18 +192,13 @@ public class OrderActivity extends BaseActivity {
         stringBuilder.append("\n");
         String message = stringBuilder.toString();
         Bitmap bitMapText = bluetoothHelper.messageToBitmap(message, R.font.arialbd, 30F);
-        boolean isPrinted = bluetoothHelper.printImage(bitMapText);
+        bluetoothHelper.printImage(bitMapText);
+//        boolean isPrinted = bluetoothHelper.printImage(bitMapText);
 //        bluetoothHelper.disconnectPrinter();
 //            if (isPrinted) {
 //                showDialogPrint("Cetak Lagi?", note);
 //            } else {
 //            }
-    }
-
-    private boolean bluetoothPrinterIsSecure() {
-        bluetoothHelper.checkAndRequestBluetoothPermission();
-        bluetoothHelper.turnOnBluetooth();
-        return bluetoothHelper.connectPrinter();
     }
 
     @Override

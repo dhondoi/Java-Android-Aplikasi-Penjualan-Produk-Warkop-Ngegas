@@ -2,6 +2,7 @@ package com.dhondoi.nonaseblak.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
@@ -68,7 +69,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
     private void showDialogSetting() {
         List<String> settings = new LinkedList<>();
-        settings.add("RESET PRINTER BLUETOOTH");
+        settings.add("TEST PRINTER BLUETOOTH");
         settings.add("INFO APLIKASI");
         settings.add("BATAL");
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, settings);
@@ -82,7 +83,17 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     private void resetPrinter() {
-        new BluetoothHelper(this, this.getApplicationContext());
+        BluetoothHelper bluetoothHelper = new BluetoothHelper(this, this.getApplicationContext());
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("-----------------------------------------------");
+        stringBuilder.append("\n----------TEST PRINTER---------");
+        stringBuilder.append("\n-----------------------------------------------");
+        stringBuilder.append("\n");
+        stringBuilder.append("\n");
+        stringBuilder.append("\n");
+        String message = stringBuilder.toString();
+        Bitmap bitMapText = bluetoothHelper.messageToBitmap(message, R.font.arialbd, 30F);
+        bluetoothHelper.printImage(bitMapText);
     }
 
     private void setNameCustomer() {

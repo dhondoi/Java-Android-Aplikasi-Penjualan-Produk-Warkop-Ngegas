@@ -214,7 +214,15 @@ public class BluetoothHelper {
         return printSuccess;
     }
 
+    private void bluetoothPrinterIsSecure() {
+        checkAndRequestBluetoothPermission();
+        turnOnBluetooth();
+        connectPrinter();
+    }
+
     public boolean printImage(Bitmap bitmap) {
+        bluetoothPrinterIsSecure();
+
         if (!isPrinterConnected()) {
             Log.d(TAG, "No Printer is connected");
             return false;
