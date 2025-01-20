@@ -38,7 +38,8 @@ public class OrderMenuActivity extends BaseActivity {
             String name = editText.getText().toString();
             if (DialogInterface.BUTTON_POSITIVE == i && !StringCheckerUtil.isEmpty(name)) {
 
-                Intent intent = new Intent(this, TransactionOrderActivity.class);
+//                Intent intent = new Intent(this, TransactionOrderActivity.class);
+                Intent intent = new Intent(this, OrderActivity.class);
                 intent.putExtra(DatabaseUtil.KEY_NAME, name);
                 intentActivityResultLauncher.launch(intent);
             }

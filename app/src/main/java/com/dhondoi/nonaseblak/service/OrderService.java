@@ -1,8 +1,6 @@
 package com.dhondoi.nonaseblak.service;
 
 import android.content.Context;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.dhondoi.nonaseblak.entity.Category;
 import com.dhondoi.nonaseblak.entity.Order;
@@ -15,7 +13,6 @@ import com.dhondoi.nonaseblak.repository.VariantRepository;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 public class OrderService {
 
@@ -40,7 +37,7 @@ public class OrderService {
         this.orderHistoryService = new OrderHistoryServiceImpl(context);
     }
 
-    public void saveOrderToDatabase(String customerName, String notes) throws Exception {
+    public Integer saveOrderToDatabase(String customerName, String notes) throws Exception {
 
         getDataOrders();
 
@@ -61,6 +58,7 @@ public class OrderService {
 //            Log.i(getClass().getSimpleName(), "insertToDatabase: " + orderHistory);
 //        }
 
+        return (int) idReceipt;
     }
 
     public List<Product> getProductsByCategory(Integer categoryId) {

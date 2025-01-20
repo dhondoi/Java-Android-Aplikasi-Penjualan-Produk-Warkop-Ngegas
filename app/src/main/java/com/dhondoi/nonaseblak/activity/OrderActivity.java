@@ -22,6 +22,7 @@ import com.dhondoi.nonaseblak.entity.Order;
 import com.dhondoi.nonaseblak.entity.Product;
 import com.dhondoi.nonaseblak.entity.Variant;
 import com.dhondoi.nonaseblak.service.OrderService;
+import com.dhondoi.nonaseblak.service.ReceiptServiceImpl;
 import com.dhondoi.nonaseblak.util.BluetoothHelper;
 import com.dhondoi.nonaseblak.util.CurrencyUtil;
 import com.dhondoi.nonaseblak.util.DatabaseUtil;
@@ -43,6 +44,8 @@ public class OrderActivity extends BaseActivity {
     private OrderForOrderAdapter orderAdapter;
 
     private BluetoothHelper bluetoothHelper;
+
+    private Integer receiptId;
 
     public void operateQuantity(Product product, int position, int quantity) {
         orderService.quantityOrderOperation(product, position, quantity);
@@ -272,8 +275,8 @@ public class OrderActivity extends BaseActivity {
             if (DialogInterface.BUTTON_POSITIVE == i && !StringCheckerUtil.isEmpty(customerName)) {
                 try {
                     String paramNote = note + editText.getText().toString();
-                    orderService.saveOrderToDatabase(customerName, paramNote);
-                    showDialogPrint("Cetak Resi?", paramNote);
+                    receiptId = orderService.saveOrderToDatabase(customerName, paramNote);
+                    showDialogPrint("Bayar Sekarang?", paramNote);
                 } catch (Exception e) {
                     DialogUtil.showDialog1Button(this, "Terjadi Kesalahan! Hubungi Programmer.");
                 }
@@ -285,6 +288,8 @@ public class OrderActivity extends BaseActivity {
         DialogUtil.showDialog2Button(this, titleDialog, null, (dialog, which) -> {
             if (which == DialogInterface.BUTTON_POSITIVE) {
                 printCheckout(paramNote);
+                new ReceiptServiceImpl(this).edit(receiptId, ReceiptServiceImpl.FINISH);
+//                orderService.finishPayment(idReceipt);
                 showDialogPrint("Cetak Lagi?", paramNote);
             } else {
                 finish();

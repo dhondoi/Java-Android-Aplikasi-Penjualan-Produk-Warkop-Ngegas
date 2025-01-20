@@ -48,9 +48,9 @@ public class MainMenuActivity extends AppCompatActivity {
         findViewById(R.id.buttonOrder).setOnClickListener(view -> {
             if (new ProductService(this).getData().size() > 0) {
                 if (new VariantServiceImpl(this).getData().size() > 0)
-//                    startActivity(new Intent(this, OrderMenuActivity.class));
+                    startActivity(new Intent(this, OrderMenuActivity.class));
                     // todo new order system v2
-                    setNameCustomer();
+//                    setNameCustomer();
                 else
                     DialogUtil.showDialog1Button(this, "Data Varian Kosong");
             } else
