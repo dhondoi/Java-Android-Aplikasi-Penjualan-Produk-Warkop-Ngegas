@@ -26,9 +26,21 @@ public class DialogUtil {
         builder.show();
     }
 
-    public static void showDialog1Button(Context context, String title, View view, DialogInterface.OnClickListener onClickListener) {
+    public static void showDialog1ButtonCancelable(Context context, String title, View view, DialogInterface.OnClickListener onClickListener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.Theme_NonaSeblak_Dialog))
                 .setCancelable(true)
+                .setTitle(title)
+                .setPositiveButton("OK", onClickListener);
+
+        if (view != null) {
+            builder.setView(view);
+        }
+        builder.show();
+    }
+
+    public static void showDialog1Button(Context context, String title, View view, DialogInterface.OnClickListener onClickListener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.Theme_NonaSeblak_Dialog))
+                .setCancelable(false)
                 .setTitle(title)
                 .setPositiveButton("OK", onClickListener);
 

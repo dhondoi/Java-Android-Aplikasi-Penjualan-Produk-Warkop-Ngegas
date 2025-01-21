@@ -1,8 +1,10 @@
 package com.dhondoi.nonaseblak.activity;
 
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.view.ContextThemeWrapper;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -35,17 +37,19 @@ import java.util.List;
 
 public class OrderActivity extends BaseActivity {
 
-    private String customerName;
+    protected String customerName, note;
     private TextView textViewCustomerName, textViewTotal;
     private SearchView searchView;
     private Button buttonChoiceCategory, buttonCheckOut;
-    private OrderService orderService;
+    protected OrderService orderService;
     private ProductForOrderAdapter productAdapter;
     private OrderForOrderAdapter orderAdapter;
 
     private BluetoothHelper bluetoothHelper;
 
     private Integer receiptId;
+
+    private boolean hasSavedToDB;
 
     public void operateQuantity(Product product, int position, int quantity) {
         orderService.quantityOrderOperation(product, position, quantity);
@@ -72,6 +76,7 @@ public class OrderActivity extends BaseActivity {
     @Override
     protected void initViews() {
 
+        hasSavedToDB = false;
         textViewCustomerName = findViewById(R.id.textViewConsumerName);
         customerName = getIntent().getStringExtra(DatabaseUtil.KEY_NAME);
         textViewCustomerName.setText(customerName.toUpperCase());
@@ -148,19 +153,19 @@ public class OrderActivity extends BaseActivity {
         productAdapter.setProducts(products);
     }
 
-    private void printCheckout(String note) {
+    private void generateOrdersForPrint() {
         List<Order> orders = orderService.getOrders();
         Long totalPriceOrder = getTotalPriceOrder(orders);
 //        new BluetoothHelper(this, this.getApplicationContext()).printOrder(customerName.toUpperCase(), orders, totalPriceOrder, note);
-        doPrint(customerName.toUpperCase(), orders, totalPriceOrder, note);
+        doPrint(orders, totalPriceOrder);
     }
 
-    private void doPrint(String customerName, List<Order> orders, Long totalPriceOrder, String note) {
+    private void doPrint(List<Order> orders, Long totalPriceOrder) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("-----------------------------------------------");
         stringBuilder.append("\n----------WARKOP NGEGAS---------");
         stringBuilder.append("\n-----------------------------------------------");
-        stringBuilder.append("\nNama    : ").append(customerName);
+        stringBuilder.append("\nNama    : ").append(customerName.toUpperCase());
         stringBuilder.append("\nTanggal : ").append(DateUtil.getStringDateNowForPrint());
         stringBuilder.append("\n-----------------------------------------------");
         for (Order order : orders) {
@@ -251,50 +256,88 @@ public class OrderActivity extends BaseActivity {
                     dialog.dismiss();
                     if (DialogInterface.BUTTON_POSITIVE == which) {
                         if (tempVariants.size() != 0) {
-                            String selection = "";
+                            note = "";
                             for (String tempVariant : tempVariants) {
-                                selection += tempVariant + ", ";
+                                note += tempVariant + ", ";
                             }
 
-                            showDialogNotes(selection);
+                            showDialogNotes();
                         } else {
 
-                            DialogUtil.showDialog1Button(this, "Varian Harap Pilih Salah Satu", null, (dialog1, which1) -> showDialogChoiceVariant());
+                            DialogUtil.showDialog1ButtonCancelable(this, "Varian Harap Pilih Salah Satu", null, (dialog1, which1) -> showDialogChoiceVariant());
                         }
 //                        Toast.makeText(this, notes.get(0), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
-    private void showDialogNotes(final String note) {
+    private void showDialogNotes() {
         EditText editText = new EditText(this);
         editText.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
         editText.setHint("Optional. Kosongkan Jika Tidak Ada Catatan.");
-        DialogUtil.showDialog1Button(this, "Catatan", editText, (dialogInterface, i) -> {
+        DialogUtil.showDialog1ButtonCancelable(this, "Catatan", editText, (dialogInterface, i) -> {
 
             if (DialogInterface.BUTTON_POSITIVE == i && !StringCheckerUtil.isEmpty(customerName)) {
-                try {
-                    String paramNote = note + editText.getText().toString();
-                    receiptId = orderService.saveOrderToDatabase(customerName, paramNote);
-                    showDialogPrint("Bayar Sekarang?", paramNote);
-                } catch (Exception e) {
-                    DialogUtil.showDialog1Button(this, "Terjadi Kesalahan! Hubungi Programmer.");
-                }
+                note += editText.getText().toString();
+                getOrdersString();
             }
         });
     }
 
-    private void showDialogPrint(String titleDialog, String paramNote) {
+    private void getOrdersString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        List<Order> orders = orderService.getOrders();
+        for (Order order : orders) {
+            String nameProduct = order.getProduct().getName().toUpperCase();
+            if (nameProduct.length() > 16) {
+                stringBuilder.append(nameProduct.substring(0, 16));
+            } else {
+                stringBuilder.append(nameProduct);
+            }
+            if (nameProduct.length() < 9) {
+                stringBuilder.append("\t");
+            }
+            stringBuilder.append("\t").append(order.getQuantity().toString());
+            stringBuilder.append("\n");
+        }
+        String message = stringBuilder.toString();
+        showDialogCheckOrders(message);
+    }
+
+    protected void showDialogCheckOrders(String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.Theme_NonaSeblak_Dialog))
+                .setCancelable(false)
+                .setTitle("Apakah Sudah Sesuai?")
+                .setMessage(message)
+                .setPositiveButton("YA", (dialogInterface, i) -> showDialogPrint("Bayar Sekarang?"))
+                .setNegativeButton("TIDAK", (dialogInterface, i) -> dialogInterface.dismiss());
+
+        builder.show();
+    }
+
+    private void showDialogPrint(String titleDialog) {
+        if (!hasSavedToDB) {
+            saveToDB();
+        }
         DialogUtil.showDialog2Button(this, titleDialog, null, (dialog, which) -> {
             if (which == DialogInterface.BUTTON_POSITIVE) {
-                printCheckout(paramNote);
                 new ReceiptServiceImpl(this).edit(receiptId, ReceiptServiceImpl.FINISH);
+                generateOrdersForPrint();
 //                orderService.finishPayment(idReceipt);
-                showDialogPrint("Cetak Lagi?", paramNote);
+                showDialogPrint("Cetak Lagi?");
             } else {
                 finish();
             }
         });
+    }
+
+    private void saveToDB() {
+        try {
+            receiptId = orderService.saveOrderToDatabase(customerName, note);
+            hasSavedToDB = true;
+        } catch (Exception e) {
+            DialogUtil.showDialog1Button(this, "Terjadi Kesalahan, Hubungi Programmer.");
+        }
     }
 
     @Override

@@ -29,7 +29,6 @@ import java.util.List;
 
 public class MainMenuActivity extends AppCompatActivity {
 
-    // todo add section about yourself
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +48,6 @@ public class MainMenuActivity extends AppCompatActivity {
             if (new ProductService(this).getData().size() > 0) {
                 if (new VariantServiceImpl(this).getData().size() > 0)
                     startActivity(new Intent(this, OrderMenuActivity.class));
-                    // todo new order system v2
 //                    setNameCustomer();
                 else
                     DialogUtil.showDialog1Button(this, "Data Varian Kosong");

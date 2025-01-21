@@ -61,6 +61,15 @@ public class OrderService {
         return (int) idReceipt;
     }
 
+    public void saveOrderToDatabase(long idReceipt, String notes) throws Exception {
+        getDataOrders();
+        long idNumberReceipt = numberReceiptService.save((int) idReceipt, notes);
+        for (Order order : orders) {
+            OrderHistory orderHistory = new OrderHistory((int) idNumberReceipt, order.getProduct().getId(), order.getQuantity(), order.getTotal());
+            orderHistoryService.save(orderHistory);
+        }
+    }
+
     public List<Product> getProductsByCategory(Integer categoryId) {
         getDataProducts();
         List<Product> tempProducts = new LinkedList<>();
