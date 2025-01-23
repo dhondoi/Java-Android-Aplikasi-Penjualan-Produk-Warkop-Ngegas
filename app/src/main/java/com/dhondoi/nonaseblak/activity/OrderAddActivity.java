@@ -65,7 +65,7 @@ public class OrderAddActivity extends OrderActivity {
     protected void showDialogCheckOrders(String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.Theme_NonaSeblak_Dialog))
                 .setCancelable(false)
-                .setTitle("CEK PESANAN")
+                .setTitle("Apakah Pesanan Tambahan Sudah Sesuai?")
                 .setMessage(message)
                 .setPositiveButton("YA", (dialogInterface, i) -> updateOrder())
                 .setNegativeButton("TIDAK", (dialogInterface, i) -> dialogInterface.dismiss());

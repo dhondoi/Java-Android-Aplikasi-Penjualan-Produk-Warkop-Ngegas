@@ -120,4 +120,30 @@ public class ReceiptRepository implements Repository<Receipt> {
             return sqLiteDatabase.delete(DatabaseUtil.TABLE_RECEIPTS, null, null);
         }
     }
+
+    public List<Receipt> readDataByStatus(String status) {
+        List<Receipt> receipts = new ArrayList<>();
+        String whereClause = String.format("%s = ?", DatabaseUtil.KEY_STATUS);
+        String[] whereArgs = {status};
+        try (SQLiteDatabase sqLiteDatabase = databaseUtil.getReadableDatabase();
+             Cursor cursor = sqLiteDatabase.query(DatabaseUtil.TABLE_RECEIPTS, null, whereClause, whereArgs, null, null, null)) {
+
+            int iId = cursor.getColumnIndex(DatabaseUtil.KEY_ID);
+            int iDate = cursor.getColumnIndex(DatabaseUtil.KEY_DATE);
+            int iName = cursor.getColumnIndex(DatabaseUtil.KEY_NAME);
+            int iStatus = cursor.getColumnIndex(DatabaseUtil.KEY_STATUS);
+
+            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+
+                Integer id = cursor.getInt(iId);
+                String date = cursor.getString(iDate);
+                String name = cursor.getString(iName);
+                String statusCol = cursor.getString(iStatus);
+
+                receipts.add(new Receipt(id, date, name, statusCol));
+            }
+        }
+
+        return receipts;
+    }
 }

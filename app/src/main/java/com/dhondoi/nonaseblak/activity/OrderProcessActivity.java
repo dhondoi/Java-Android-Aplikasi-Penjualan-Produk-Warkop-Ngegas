@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dhondoi.nonaseblak.R;
 import com.dhondoi.nonaseblak.adapter.OrderProcessAdapter;
 import com.dhondoi.nonaseblak.entity.Receipt;
+import com.dhondoi.nonaseblak.repository.ReceiptRepository;
+import com.dhondoi.nonaseblak.service.ReceiptService;
 import com.dhondoi.nonaseblak.service.ReceiptServiceImpl;
 import com.dhondoi.nonaseblak.util.DatabaseUtil;
 
@@ -67,7 +69,8 @@ public class OrderProcessActivity extends BaseActivity {
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
-        List<Receipt> receipts = getDataProcess();
+        List<Receipt> receipts = new ReceiptServiceImpl(this).getDataByStatus(ReceiptServiceImpl.START);
+//        List<Receipt> receipts = getDataProcess();
         OrderProcessAdapter adapter = new OrderProcessAdapter(this, receipts);
         recyclerView.setAdapter(adapter);
     }

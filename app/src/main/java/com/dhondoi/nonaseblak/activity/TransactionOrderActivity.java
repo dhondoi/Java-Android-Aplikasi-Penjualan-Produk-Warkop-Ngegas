@@ -146,7 +146,7 @@ public class TransactionOrderActivity extends BaseActivity {
 
                     List<Order> orders = orderMap.getValue();
                     for (Order order : orders) {
-                        OrderHistory orderHistory = new OrderHistory((int) idNumberReceipt, order.getProduct().getId(), order.getQuantity(), order.getTotal());
+                        OrderHistory orderHistory = new OrderHistory((int) idNumberReceipt, order.getProduct().getId(), order.getProduct().getName(), order.getQuantity(), order.getTotal());
                         new OrderHistoryServiceImpl(this).save(orderHistory);
                     }
 
@@ -190,8 +190,8 @@ public class TransactionOrderActivity extends BaseActivity {
 //            Toast.makeText(this, ""+categories.get(which), Toast.LENGTH_SHORT).show();
                 showQuantity(sortedProducts.get(which));
             });
-        }else {
-            DialogUtil.showDialog1Button(this,"Tidak Ada Produk Dalam Kategori Tersebut.",null,(dialog, which) -> showCategory());
+        } else {
+            DialogUtil.showDialog1Button(this, "Tidak Ada Produk Dalam Kategori Tersebut.", null, (dialog, which) -> showCategory());
         }
     }
 

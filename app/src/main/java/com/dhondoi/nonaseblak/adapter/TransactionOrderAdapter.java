@@ -37,7 +37,8 @@ public class TransactionOrderAdapter extends RecyclerView.Adapter<TransactionOrd
     public void onBindViewHolder(@NonNull TransactionOrderAdapter.TransactionOrderHolder holder, int position) {
         Order order = orders.get(position);
         holder.tvName.setText(order.getProduct().getName().toUpperCase());
-        holder.tvPrice.setText(CurrencyUtil.toCurrency(order.getProduct().getPrice().intValue()));
+        int price = order.getTotal().intValue() / order.getQuantity();
+        holder.tvPrice.setText(CurrencyUtil.toCurrency(price));
         holder.tvQuantity.setText(String.valueOf(order.getQuantity()));
         holder.tvPriceTotal.setText(CurrencyUtil.toCurrency(order.getTotal().intValue()));
     }

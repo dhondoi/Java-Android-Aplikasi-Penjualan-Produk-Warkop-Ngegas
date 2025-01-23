@@ -46,7 +46,7 @@ public class OrderService {
         long idNumberReceipt = numberReceiptService.save((int) idReceipt, notes);
 
         for (Order order : orders) {
-            OrderHistory orderHistory = new OrderHistory((int) idNumberReceipt, order.getProduct().getId(), order.getQuantity(), order.getTotal());
+            OrderHistory orderHistory = new OrderHistory((int) idNumberReceipt, order.getProduct().getId(), order.getProduct().getName(), order.getQuantity(), order.getTotal());
             orderHistoryService.save(orderHistory);
         }
 
@@ -65,7 +65,7 @@ public class OrderService {
         getDataOrders();
         long idNumberReceipt = numberReceiptService.save((int) idReceipt, notes);
         for (Order order : orders) {
-            OrderHistory orderHistory = new OrderHistory((int) idNumberReceipt, order.getProduct().getId(), order.getQuantity(), order.getTotal());
+            OrderHistory orderHistory = new OrderHistory((int) idNumberReceipt, order.getProduct().getId(), order.getProduct().getName(), order.getQuantity(), order.getTotal());
             orderHistoryService.save(orderHistory);
         }
     }

@@ -119,6 +119,8 @@ public class DatabaseUtil extends SQLiteOpenHelper {
                 " INTEGER NOT NULL, " +
                 KEY_PRODUCT_ID +
                 " INTEGER NOT NULL, " +
+                KEY_NAME +
+                " TEXT NOT NULL, " +
                 KEY_QUANTITY +
                 " INTEGER NOT NULL, " +
                 KEY_TOTAL +

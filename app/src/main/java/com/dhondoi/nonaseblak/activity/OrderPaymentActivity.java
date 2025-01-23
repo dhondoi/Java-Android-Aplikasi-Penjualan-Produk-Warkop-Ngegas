@@ -21,6 +21,8 @@ import com.dhondoi.nonaseblak.util.DialogUtil;
 import java.util.LinkedList;
 import java.util.List;
 
+// todo buat fitur print struk
+
 public class OrderPaymentActivity extends BaseActivity {
 
     private Integer receiptId;
@@ -51,23 +53,24 @@ public class OrderPaymentActivity extends BaseActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        List<NumberReceipt> numberReceipts = getNumberReceipt();
+//        List<NumberReceipt> numberReceipts = getNumberReceipt();
+        List<NumberReceipt> numberReceipts = new NumberReceiptServiceImpl(this).getDataByIdReceipt(receiptId);
         OrderPaymentAdapter orderPaymentAdapter = new OrderPaymentAdapter(this, numberReceipts);
         recyclerView.setAdapter(orderPaymentAdapter);
         // this will be notice
         ((TextView) findViewById(R.id.textViewTotal)).setText(CurrencyUtil.toCurrency(getNetTotal(numberReceipts, orderPaymentAdapter).intValue()));
     }
 
-    private List<NumberReceipt> getNumberReceipt() {
-        List<NumberReceipt> numberReceipts = new NumberReceiptServiceImpl(this).getData();
-        List<NumberReceipt> numberReceipts1 = new LinkedList<>();
-        for (NumberReceipt numberReceipt : numberReceipts) {
-            if (numberReceipt.getReceiptId().equals(receiptId))
-                numberReceipts1.add(numberReceipt);
-        }
-        Log.i(getClass().getSimpleName(), "getNumberReceipt: " + numberReceipts1.size());
-        return numberReceipts1;
-    }
+//    private List<NumberReceipt> getNumberReceipt() {
+//        List<NumberReceipt> numberReceipts = new NumberReceiptServiceImpl(this).getData();
+//        List<NumberReceipt> numberReceipts1 = new LinkedList<>();
+//        for (NumberReceipt numberReceipt : numberReceipts) {
+//            if (numberReceipt.getReceiptId().equals(receiptId))
+//                numberReceipts1.add(numberReceipt);
+//        }
+//        Log.i(getClass().getSimpleName(), "getNumberReceipt: " + numberReceipts1.size());
+//        return numberReceipts1;
+//    }
 
     private void showQuestionDialog() {
         DialogUtil.showDialog2Button(this, "Selesaikan Transaksi? Pastikan Pembeli Tidak Pesan Kembali.", null, (dialog, which) -> {

@@ -2,10 +2,12 @@ package com.dhondoi.nonaseblak.service;
 
 import android.content.Context;
 
+import com.dhondoi.nonaseblak.entity.NumberReceipt;
 import com.dhondoi.nonaseblak.entity.OrderHistory;
 import com.dhondoi.nonaseblak.repository.OrderHistoryRepository;
 import com.dhondoi.nonaseblak.util.IntegerCheckerUtil;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class OrderHistoryServiceImpl implements OrderHistoryService {
@@ -38,4 +40,11 @@ public class OrderHistoryServiceImpl implements OrderHistoryService {
     }
 
 
+    public List<OrderHistory> getDataByListNumberReceipt(List<NumberReceipt> numberReceipts) {
+        List<OrderHistory> orderHistories = new LinkedList<>();
+        for (NumberReceipt numberReceipt : numberReceipts) {
+            orderHistories.addAll(orderHistoryRepository.readDataByIdNumberReceipt(numberReceipt.getId()));
+        }
+        return orderHistories;
+    }
 }

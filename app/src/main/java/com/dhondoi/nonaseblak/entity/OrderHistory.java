@@ -6,13 +6,16 @@ public class OrderHistory {
 
     private Integer productId;
 
+    private String productName;
+
     private Integer quantity;
 
     private Long total;
 
-    public OrderHistory(Integer numberReceiptId, Integer productId, Integer quantity, Long total) {
+    public OrderHistory(Integer numberReceiptId, Integer productId, String productName, Integer quantity, Long total) {
         this.numberReceiptId = numberReceiptId;
         this.productId = productId;
+        this.productName = productName;
         this.quantity = quantity;
         this.total = total;
     }
@@ -31,6 +34,14 @@ public class OrderHistory {
 
     public void setProductId(Integer productId) {
         this.productId = productId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public Integer getQuantity() {
@@ -58,4 +69,5 @@ public class OrderHistory {
                 ", total=" + total +
                 '}';
     }
+
 }

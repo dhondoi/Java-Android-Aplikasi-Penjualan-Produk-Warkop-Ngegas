@@ -35,7 +35,7 @@ public class OrderPaymentAdapter extends RecyclerView.Adapter<OrderPaymentAdapte
     public OrderPaymentAdapter(Context context, List<NumberReceipt> numberReceipts) {
         this.context = context;
         this.numberReceipts = numberReceipts;
-        this.orderHistories = new OrderHistoryServiceImpl(this.context).getData();
+        this.orderHistories = new OrderHistoryServiceImpl(this.context).getDataByListNumberReceipt(this.numberReceipts);
         this.products = new ProductService(this.context).getData();
     }
 
@@ -71,6 +71,7 @@ public class OrderPaymentAdapter extends RecyclerView.Adapter<OrderPaymentAdapte
         for (OrderHistory orderHistory : sortedOrderHistory) {
             for (Product product : products) {
                 if (orderHistory.getProductId().equals(product.getId())) {
+                    product.setName(orderHistory.getProductName());
                     orders.add(new Order(product, orderHistory.getQuantity(), orderHistory.getTotal()));
                 }
             }

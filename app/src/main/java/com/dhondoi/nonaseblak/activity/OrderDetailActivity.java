@@ -49,7 +49,8 @@ public class OrderDetailActivity extends BaseActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        List<NumberReceipt> numberReceipts = getNumberReceipt();
+//        List<NumberReceipt> numberReceipts = getNumberReceipt();
+        List<NumberReceipt> numberReceipts = new NumberReceiptServiceImpl(this).getDataByIdReceipt(receiptId);
         OrderDetailAdapter orderDetailAdapter = new OrderDetailAdapter(this, numberReceipts);
         recyclerView.setAdapter(orderDetailAdapter);
     }
@@ -59,16 +60,16 @@ public class OrderDetailActivity extends BaseActivity {
         intentActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> initLists());
     }
 
-    private List<NumberReceipt> getNumberReceipt() {
-        List<NumberReceipt> numberReceipts = new NumberReceiptServiceImpl(this).getData();
-        List<NumberReceipt> numberReceipts1 = new LinkedList<>();
-        for (NumberReceipt numberReceipt : numberReceipts) {
-            if (numberReceipt.getReceiptId().equals(receiptId))
-                numberReceipts1.add(numberReceipt);
-        }
-        Log.i(getClass().getSimpleName(), "getNumberReceipt: " + numberReceipts1.size());
-        return numberReceipts1;
-    }
+//    private List<NumberReceipt> getNumberReceipt() {
+//        List<NumberReceipt> numberReceipts = new NumberReceiptServiceImpl(this).getData();
+//        List<NumberReceipt> numberReceipts1 = new LinkedList<>();
+//        for (NumberReceipt numberReceipt : numberReceipts) {
+//            if (numberReceipt.getReceiptId().equals(receiptId))
+//                numberReceipts1.add(numberReceipt);
+//        }
+//        Log.i(getClass().getSimpleName(), "getNumberReceipt: " + numberReceipts1.size());
+//        return numberReceipts1;
+//    }
 
     private void launchOrderAddActivity() {
         Intent intent = new Intent(this, OrderAddActivity.class);

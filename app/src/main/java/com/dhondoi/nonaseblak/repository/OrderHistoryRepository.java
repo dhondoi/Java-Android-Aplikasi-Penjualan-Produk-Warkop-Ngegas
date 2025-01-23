@@ -30,6 +30,7 @@ public class OrderHistoryRepository implements Repository<OrderHistory> {
 
             int iNumberReceiptId = cursor.getColumnIndex(DatabaseUtil.KEY_NUMBER_RECEIPT_ID);
             int iProductId = cursor.getColumnIndex(DatabaseUtil.KEY_PRODUCT_ID);
+            int iProductName = cursor.getColumnIndex(DatabaseUtil.KEY_NAME);
             int iQuantity = cursor.getColumnIndex(DatabaseUtil.KEY_QUANTITY);
             int iTotal = cursor.getColumnIndex(DatabaseUtil.KEY_TOTAL);
 
@@ -37,10 +38,11 @@ public class OrderHistoryRepository implements Repository<OrderHistory> {
 
                 Integer numberReceiptId = cursor.getInt(iNumberReceiptId);
                 Integer productId = cursor.getInt(iProductId);
+                String productName = cursor.getString(iProductName);
                 Integer quantity = cursor.getInt(iQuantity);
                 Long total = cursor.getLong(iTotal);
 
-                orderHistories.add(new OrderHistory(numberReceiptId, productId, quantity, total));
+                orderHistories.add(new OrderHistory(numberReceiptId, productId, productName, quantity, total));
             }
         }
 
@@ -56,6 +58,7 @@ public class OrderHistoryRepository implements Repository<OrderHistory> {
 
             int iNumberReceiptId = cursor.getColumnIndex(DatabaseUtil.KEY_NUMBER_RECEIPT_ID);
             int iProductId = cursor.getColumnIndex(DatabaseUtil.KEY_PRODUCT_ID);
+            int iProductName = cursor.getColumnIndex(DatabaseUtil.KEY_NAME);
             int iQuantity = cursor.getColumnIndex(DatabaseUtil.KEY_QUANTITY);
             int iTotal = cursor.getColumnIndex(DatabaseUtil.KEY_TOTAL);
 
@@ -63,10 +66,11 @@ public class OrderHistoryRepository implements Repository<OrderHistory> {
 
                 Integer numberReceiptId2 = cursor.getInt(iNumberReceiptId);
                 Integer productId = cursor.getInt(iProductId);
+                String productName = cursor.getString(iProductName);
                 Integer quantity = cursor.getInt(iQuantity);
                 Long total = cursor.getLong(iTotal);
 
-                orderHistories.add(new OrderHistory(numberReceiptId2, productId, quantity, total));
+                orderHistories.add(new OrderHistory(numberReceiptId2, productId, productName, quantity, total));
             }
         }
 
@@ -84,6 +88,7 @@ public class OrderHistoryRepository implements Repository<OrderHistory> {
 
             contentValues.put(DatabaseUtil.KEY_NUMBER_RECEIPT_ID, orderHistory.getNumberReceiptId());
             contentValues.put(DatabaseUtil.KEY_PRODUCT_ID, orderHistory.getProductId());
+            contentValues.put(DatabaseUtil.KEY_NAME, orderHistory.getProductName());
             contentValues.put(DatabaseUtil.KEY_QUANTITY, orderHistory.getQuantity());
             contentValues.put(DatabaseUtil.KEY_TOTAL, orderHistory.getTotal());
 

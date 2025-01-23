@@ -33,7 +33,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
     public OrderDetailAdapter(Context context, List<NumberReceipt> numberReceipts) {
         this.context = context;
         this.numberReceipts = numberReceipts;
-        this.orderHistories = new OrderHistoryServiceImpl(this.context).getData();
+        this.orderHistories = new OrderHistoryServiceImpl(this.context).getDataByListNumberReceipt(this.numberReceipts);
         this.products = new ProductService(this.context).getData();
     }
 
@@ -53,6 +53,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
 
         List<OrderHistory> sortedOrderHistory = getSortedOrderHistory(numberReceipt.getId());
         List<Order> orders = getProductOrder(sortedOrderHistory);
+//        List<Order> orders = getProductOrder(orderHistories);
         OrderDetailAdapter1 orderDetailAdapter1 = new OrderDetailAdapter1(context, orders);
         holder.recyclerView.setAdapter(orderDetailAdapter1);
     }
@@ -62,6 +63,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
         for (OrderHistory orderHistory : sortedOrderHistory) {
             for (Product product : products) {
                 if (orderHistory.getProductId().equals(product.getId())) {
+                    product.setName(orderHistory.getProductName());
                     orders.add(new Order(product, orderHistory.getQuantity(), orderHistory.getTotal()));
                 }
             }

@@ -50,4 +50,8 @@ public class ReceiptServiceImpl implements ReceiptService {
 //        }
         return receiptRepository.readDataByDate(startDate, endDate);
     }
+
+    public List<Receipt> getDataByStatus(String status) {
+        return receiptRepository.readDataByStatus(status);
+    }
 }
