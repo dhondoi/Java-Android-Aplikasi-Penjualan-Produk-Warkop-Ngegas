@@ -13,6 +13,16 @@ import com.dhondoi.nonaseblak.R;
 import java.util.Calendar;
 
 public class DialogUtil {
+    public static void showDialog2ButtonWithMessage(Context context,String title, String message,DialogInterface.OnClickListener onClickListener){
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.Theme_NonaSeblak_Dialog))
+                .setCancelable(false)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("YA", onClickListener)
+                .setNegativeButton("TIDAK", onClickListener);
+
+        builder.show();
+    }
     public static void showDialog2Button(Context context, String title, View view, DialogInterface.OnClickListener onClickListener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.Theme_NonaSeblak_Dialog))
                 .setCancelable(false)

@@ -34,4 +34,13 @@ public class Order {
     public void setTotal(Long total) {
         this.total = total;
     }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "product=" + product +
+                ", quantity=" + quantity +
+                ", total=" + total +
+                '}';
+    }
 }

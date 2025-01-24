@@ -298,8 +298,10 @@ public class OrderActivity extends BaseActivity {
                 stringBuilder.append("\t");
             }
             stringBuilder.append("\t").append(order.getQuantity().toString());
+            stringBuilder.append("\t").append(CurrencyUtil.toCurrency(order.getTotal().intValue()));
             stringBuilder.append("\n");
         }
+        stringBuilder.append("\nTOTAL \t\t ").append(CurrencyUtil.toCurrency(getTotalPriceOrder(orders).intValue()));
         String message = stringBuilder.toString();
         showDialogCheckOrders(message);
     }

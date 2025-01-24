@@ -39,6 +39,14 @@ public class OrderPaymentAdapter extends RecyclerView.Adapter<OrderPaymentAdapte
         this.products = new ProductService(this.context).getData();
     }
 
+    public List<OrderHistory> getOrderHistories() {
+        return orderHistories;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
     @NonNull
     @Override
     public OrderPaymentHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -73,6 +81,7 @@ public class OrderPaymentAdapter extends RecyclerView.Adapter<OrderPaymentAdapte
                 if (orderHistory.getProductId().equals(product.getId())) {
                     product.setName(orderHistory.getProductName());
                     orders.add(new Order(product, orderHistory.getQuantity(), orderHistory.getTotal()));
+                    break;
                 }
             }
         }
