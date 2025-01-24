@@ -136,19 +136,19 @@ public class ReportIncomeService {
 
                 for (int i = 0; i < reportIncomes.size(); i++) {
 
-                    if (reportIncomes.get(i).getName().equals(product.getName()) && reportIncomes.get(i).getDate().equals(date)) {
+                    if (reportIncomes.get(i).getName().equals(orderHistory.getProductName()) && reportIncomes.get(i).getDate().equals(date)) {
 
                         Integer amount = reportIncomes.get(i).getAmount() + orderHistory.getQuantity();
                         Long total = reportIncomes.get(i).getTotal() + orderHistory.getTotal();
 
-                        reportIncomes.set(i, new ReportIncome(date, product.getName(), total / amount, amount, total));
+                        reportIncomes.set(i, new ReportIncome(date, orderHistory.getProductName(), total / amount, amount, total));
                         return;
                     }
                 }
-                reportIncomes.add(new ReportIncome(date, product.getName(), orderHistory.getTotal() / orderHistory.getQuantity(), orderHistory.getQuantity(), orderHistory.getTotal()));
+                reportIncomes.add(new ReportIncome(date, orderHistory.getProductName(), orderHistory.getTotal() / orderHistory.getQuantity(), orderHistory.getQuantity(), orderHistory.getTotal()));
             } else {
 
-                reportIncomes.add(new ReportIncome(date, product.getName(), orderHistory.getTotal() / orderHistory.getQuantity(), orderHistory.getQuantity(), orderHistory.getTotal()));
+                reportIncomes.add(new ReportIncome(date, orderHistory.getProductName(), orderHistory.getTotal() / orderHistory.getQuantity(), orderHistory.getQuantity(), orderHistory.getTotal()));
             }
         }
     }

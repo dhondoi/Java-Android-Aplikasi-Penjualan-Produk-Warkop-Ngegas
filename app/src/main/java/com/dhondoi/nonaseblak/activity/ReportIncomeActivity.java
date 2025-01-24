@@ -26,6 +26,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+// todo perbaiki tanggal dan struktur data
+
 public class ReportIncomeActivity extends BaseActivity {
 
     private ReportIncomeService reportIncomeService;
@@ -63,7 +65,7 @@ public class ReportIncomeActivity extends BaseActivity {
         editTextStartDate = findViewById(R.id.editTextStartDate);
         editTextStartDate.setOnClickListener(v -> DialogUtil.showDialogDate(this, (view, year, month, dayOfMonth) -> {
             String date = year + "-" + (month + 1) + "-" + dayOfMonth;
-            startDate = year + "-" + (month + 1) + "-" + (dayOfMonth - 1);
+            startDate = year + "-" + (month + 1) + "-" + (dayOfMonth);
             try {
                 Date parseEndDate = sdf.parse(startDate);
                 startDate = sdf.format(parseEndDate);
@@ -91,7 +93,7 @@ public class ReportIncomeActivity extends BaseActivity {
         calendar.add(Calendar.DAY_OF_MONTH, 1);  // menambah 1 hari
         Date tomorrow = calendar.getTime();
         calendar.setTime(today);
-        calendar.add(Calendar.DAY_OF_MONTH, -1);
+        calendar.add(Calendar.DAY_OF_MONTH, 0);
         Date yesterday = calendar.getTime();
         startDate = sdf.format(yesterday);
         endDate = sdf.format(tomorrow);
