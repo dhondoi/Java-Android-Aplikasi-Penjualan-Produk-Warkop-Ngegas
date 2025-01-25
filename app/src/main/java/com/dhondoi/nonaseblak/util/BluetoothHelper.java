@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.activity.ComponentActivity;
 import androidx.core.app.ActivityCompat;
@@ -225,6 +226,7 @@ public class BluetoothHelper {
 
         if (!isPrinterConnected()) {
             Log.d(TAG, "No Printer is connected");
+            Toast.makeText(context, "Printer Belum Terkoneksi!", Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -269,6 +271,7 @@ public class BluetoothHelper {
                 printSuccess = true;
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
+//                Toast.makeText(context, "Koneksi Printer Terputus!", Toast.LENGTH_SHORT).show();
                 printSuccess = false;
             }
         }).start();

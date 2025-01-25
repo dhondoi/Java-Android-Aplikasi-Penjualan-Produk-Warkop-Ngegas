@@ -197,7 +197,11 @@ public class OrderActivity extends BaseActivity {
         stringBuilder.append("\n");
         String message = stringBuilder.toString();
         Bitmap bitMapText = bluetoothHelper.messageToBitmap(message, R.font.arialbd, 30F);
-        bluetoothHelper.printImage(bitMapText);
+        boolean printSuccess = bluetoothHelper.printImage(bitMapText);
+        if (printSuccess){
+            bluetoothHelper = new BluetoothHelper(this, this.getApplicationContext());
+            doPrint(orders,totalPriceOrder);
+        }
 //        Toast.makeText(this,message,Toast.LENGTH_LONG).show();
 //        boolean isPrinted = bluetoothHelper.printImage(bitMapText);
 //        bluetoothHelper.disconnectPrinter();
