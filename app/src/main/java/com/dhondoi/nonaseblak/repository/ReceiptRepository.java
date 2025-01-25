@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.dhondoi.nonaseblak.entity.Receipt;
+import com.dhondoi.nonaseblak.service.ReceiptServiceImpl;
 import com.dhondoi.nonaseblak.util.DatabaseUtil;
 
 import java.util.ArrayList;
@@ -50,8 +51,8 @@ public class ReceiptRepository implements Repository<Receipt> {
 
     public List<Receipt> readDataByDate(String startDate,String endDate) {
         List<Receipt> receipts = new ArrayList<>();
-        String whereClause = String.format("%s > ? AND %s < ?", DatabaseUtil.KEY_DATE, DatabaseUtil.KEY_DATE);
-        String[] whereArgs = {startDate, endDate};
+        String whereClause = String.format("%s > ? AND %s < ? AND %s = ?", DatabaseUtil.KEY_DATE, DatabaseUtil.KEY_DATE,DatabaseUtil.KEY_STATUS);
+        String[] whereArgs = {startDate, endDate, ReceiptServiceImpl.FINISH};
         try (SQLiteDatabase sqLiteDatabase = databaseUtil.getReadableDatabase();
              Cursor cursor = sqLiteDatabase.query(DatabaseUtil.TABLE_RECEIPTS, null, whereClause, whereArgs, null, null, null)) {
 

@@ -83,22 +83,26 @@ public class ReportIncomeService {
         reportIncomes = new ArrayList<>();
         products = productService.getData();
         List<Receipt> receipts = receiptService.getDataByDate(startDate, endDate);
-        Log.i(getClass().getSimpleName(), ""+receipts.size());
+        Log.i(getClass().getSimpleName(), "" + receipts.size());
         for (Receipt receipt : receipts) {
             Log.i(getClass().getSimpleName(), receipt.toString());
+//            numberReceipts numberReceiptService.getDataByIdReceipt(receipt.getId());
         }
-        List<NumberReceipt> numberReceipts = numberReceiptService.getData();
-        List<OrderHistory> orderHistories = orderHistoryService.getData();
         for (Receipt receipt : receipts) {
             String date = DateUtil.getStringDateForReport(receipt.getDate());
+            List<NumberReceipt> numberReceipts = numberReceiptService.getDataByIdReceipt(receipt.getId());
             for (NumberReceipt numberReceipt : numberReceipts) {
-                if (numberReceipt.getReceiptId().equals(receipt.getId())) {
-                    for (OrderHistory orderHistory : orderHistories) {
-                        if (orderHistory.getNumberReceiptId().equals(numberReceipt.getId())) {
-                            addToTheListReportIncome(date, orderHistory);
-                        }
-                    }
-                    break;
+//                if (numberReceipt.getReceiptId().equals(receipt.getId())) {
+//                    for (OrderHistory orderHistory : orderHistories) {
+//                        if (orderHistory.getNumberReceiptId().equals(numberReceipt.getId())) {
+//                            addToTheListReportIncome(date, orderHistory);
+//                        }
+//                    }
+//                    break;
+//                }
+                List<OrderHistory> orderHistories = orderHistoryService.getDataByIdNumberReceipt(numberReceipt.getId());
+                for (OrderHistory orderHistory : orderHistories) {
+                    addToTheListReportIncome(date, orderHistory);
                 }
             }
         }
